@@ -12,8 +12,8 @@ import pulseio
 from   adafruit_matrixportal.matrix import Matrix
 from   adafruit_display_shapes.circle import Circle
 
-STORM_INTENSITY = 1  # 0 to 8
-STORM_INTENSITY = int(max(0, min(STORM_INTENSITY, 8)))
+STORM_INTENSITY = 1  # 0 to 3
+STORM_INTENSITY = int(max(0, min(STORM_INTENSITY, 3)))
 
 max_flakes = STORM_INTENSITY * 32
 flake_time = []
