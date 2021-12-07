@@ -1,2 +1,2 @@
 # Matrix_Portal_Snowman
- An animated holiday decoration for the Adafruit Matrix Portal.
+ An animated holiday decoration for the Adafruit Matrix Portal written in CircuitPython.
