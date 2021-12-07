@@ -8,7 +8,6 @@ import board
 import displayio
 import time
 import random as rn
-import pulseio
 from   adafruit_matrixportal.matrix import Matrix
 from   adafruit_display_shapes.circle import Circle
 
