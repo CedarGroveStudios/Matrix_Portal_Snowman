@@ -17,7 +17,7 @@ import vectorio
 
 from adafruit_matrixportal.matrix import Matrix
 
-STORM_INTENSITY = 3  # 0 to 3
+STORM_INTENSITY = 1  # 0 to 3
 STORM_INTENSITY = int(max(0, min(STORM_INTENSITY, 3)))
 
 max_foreground_flakes = STORM_INTENSITY * 30
