@@ -10,12 +10,14 @@ no storm, 3 for a hot-chocolate-inducing blizzard. A setting of 1 is relaxing.""
 
 import board
 import displayio
-import vectorio
-import time
+import gc
 import random as rn
+import time
+import vectorio
+
 from adafruit_matrixportal.matrix import Matrix
 
-STORM_INTENSITY = 1  # 0 to 3
+STORM_INTENSITY = 3  # 0 to 3
 STORM_INTENSITY = int(max(0, min(STORM_INTENSITY, 3)))
 
 max_foreground_flakes = STORM_INTENSITY * 30
@@ -27,7 +29,7 @@ background_flake_time = []
 foreground_flake_displ = []
 background_flake_displ = []
 
-matrix = Matrix()
+matrix = Matrix(bit_depth=6)
 display = matrix.display
 
 center_group = displayio.Group()  # The primary display group
@@ -38,23 +40,23 @@ background_flakes = displayio.Group()
 snowman_palette = displayio.Palette(5)
 snowman_palette[0] = 0x000000  # Background: BLACK
 snowman_palette[1] = 0x600000  # Nose and hat trim: RED
-snowman_palette[2] = 0x000060  # Hat and scarf: BLUE
+snowman_palette[2] = 0x000070  # Hat and scarf: BLUE
 snowman_palette[3] = 0x000000  # Eyes, mouth, and buttons (made of coal): BLACK
 snowman_palette[4] = 0x606060  # Body and head: GRAY
 snowman_palette.make_transparent(0)  # Make background transparent
 
 foreground_snowflake_palette = displayio.Palette(1)
-foreground_snowflake_palette[0] = 0xffffff  # WHITE
+foreground_snowflake_palette[0] = 0xfcfcfc  # WHITE
 background_snowflake_palette = displayio.Palette(1)
-background_snowflake_palette[0] = 0x404040  # GRAY
+background_snowflake_palette[0] = 0x10101c  # GRAY
 
 # Build the foreground and background snowflake layers.
 if STORM_INTENSITY != 0:
     for i in range(0, max_foreground_flakes):
         snowflake = vectorio.Circle(
             pixel_shader=foreground_snowflake_palette,
-            x=rn.randrange(0, 63),
-            y=0 + (i * int(32 / max_background_flakes)) % 32,
+            x = rn.randrange(0, 63),
+            y = 1 + (int(32 * (i / max_background_flakes)) % 32),
             radius=1,
         )
         foreground_flakes.append(snowflake)
@@ -64,8 +66,8 @@ if STORM_INTENSITY != 0:
     for i in range(0, max_background_flakes):
         snowflake = vectorio.Circle(
             pixel_shader=background_snowflake_palette,
-            x=rn.randrange(3, 63),
-            y=0 + (i * int(32 / max_background_flakes)) % 32,
+            x = rn.randrange(3, 63),
+            y = 1 + (int(32 * (i / max_background_flakes)) % 32),
             radius=1,
         )
         background_flakes.append(snowflake)
@@ -92,6 +94,9 @@ with open("/snowman_32_64.bmp", "rb") as f:
     else:
         while True:
             pass
+
+    gc.collect()
+    print(f'free memory = {gc.mem_free()/1000:6.3f} kB')
 
     # Animate the background and foreground snowflakes forever.
     while True:
