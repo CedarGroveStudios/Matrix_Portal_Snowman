@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 # snowman_code.py
-# 2022-07-24 v1.2
+# 2024-12-02 v2.0
 
 """A two-layer snowstorm animation with a snowman bitmap image. STORM_INTENSITY
 controls the maximum number of foreground and background snowflakes; 0 for
@@ -14,7 +14,7 @@ import random as rn
 import time
 import vectorio
 from adafruit_matrixportal.matrix import Matrix
-from cedargrove_palettefader import PaletteFader
+from cedargrove_palettefader.palettefader import PaletteFader
 
 # fmt: off
 DISP_BRIGHTNESS = 0.1  # float: 0.1 to 1.0
@@ -80,7 +80,7 @@ if STORM_INTENSITY != 0:
         bg_flake_duration.append(rn.random() / max_fg_flake_count)
         bg_flake_displacement.append(rn.randrange(1, 3))
 
-display.show(center_group)
+display.root_group = center_group
 
 # Load landscape snowman bitmap
 with open("/snowman_32_64.bmp", "rb") as snowman_bitmap:
